@@ -1,0 +1,44 @@
+-- jadb.cedjya0la5xh.eu-west-2.rds.amazonaws.com
+-- username: admin
+-- password: Japassword1
+
+-- CREATE TABLE EmployeeTbl (
+--     EmpId int NOT NULL AUTO_INCREMENT,
+--     EmpName varchar(100) NOT NULL,
+--     EmpDOB DATE,
+--     EmpStatus varchar(20),
+--     PRIMARY KEY (EmpId)
+-- );
+
+
+-- INSERT INTO jadb.EmployeeTbl (EmpName, EmpDOB, EmpStatus)
+-- VALUES('James Cameroon', '1955-12-05', 'Active')
+-- ;
+
+-- INSERT INTO jadb.EmployeeTbl (EmpName, EmpDOB, EmpStatus)
+-- VALUES('Christopher Nolan', '1969-04-23', 'Active')
+-- ;
+
+-- INSERT INTO jadb.EmployeeTbl (EmpName, EmpDOB, EmpStatus)
+-- VALUES('Steven Soderbergh', '1972-08-12', 'Retired')
+-- ;
+
+-- CREATE TABLE f1driver_tbl (
+--     f1driver_id int NOT NULL AUTO_INCREMENT,
+--     f1driver_name varchar(100) NOT NULL,
+--     f1driver_wins int,
+--     f1driver_status varchar(20),
+--     PRIMARY KEY (f1driver_id)
+-- );
+
+
+-- INSERT INTO jadb.EmployeeTbl (EmpName, EmpDOB, EmpStatus)
+-- VALUES('James Cameroon', '1955-12-05', 'Active')
+-- ;
+
+-- INSERT INTO jadb.EmployeeTbl (EmpName, EmpDOB, EmpStatus)
+-- VALUES('Christopher Nolan', '1969-04-23', 'Active')
+-- ;
+
+-- INSERT INTO jadb.EmployeeTbl (EmpName, EmpDOB, EmpStatus)
+-- VALUES('Steven Soderbergh', '1972-08-12', 'Retired')
