@@ -7,7 +7,9 @@ cd /home/ec2-user/
 sudo ssh-keygen -F github.com || ssh-keyscan github.com >> /home/ec2-user/.ssh/known_hosts
 chmod 644 /home/ec2-user/.ssh/known_hosts
 sudo cat /home/ec2-user/.ssh/known_hosts
+python3 -m venv venv
+source venv/bin/activate
 sudo pip3 install flask
 cd JaFlaskWebDbApp/
 sudo pip3 install -r requirements.txt
-FLASK_APP=app.py flask run --host='0.0.0.0' --port=5000
+FLASK_APP=App.app.py flask run --host='0.0.0.0' --port=5000

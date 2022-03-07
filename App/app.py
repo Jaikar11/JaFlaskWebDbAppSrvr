@@ -3,7 +3,7 @@ from flask import Flask, render_template
 from sqlalchemy import (Column, Integer, MetaData, String, Table,
                         create_engine, inspect)
 from sqlalchemy.exc import SQLAlchemyError
-app = Flask(__name__)
+app = Flask(__name__,template_folder='../templates')
 
 #Populate AWS DB End Point from rds_endpoint.txt file
 db_endpoint_file = open("/home/ec2-user/rds_endpoint.txt", "r")
