@@ -3,6 +3,10 @@ os: linux
 files:
   - source: /
     destination: /home/ec2-user/JaFlaskWebDbApp/
+permissions:
+  - object: /home/ec2-user/JaFlaskWebDbApp/scripts
+    mode: 777
+    pattern: "**"    
 hooks:
   BeforeInstall:
     - location: scripts/install_dependencies
