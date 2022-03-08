@@ -2,9 +2,9 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ec2-user/JaFlaskWebDbApp/
+    destination: /home/ec2-user/
 permissions:
-  - object: /home/ec2-user/JaFlaskWebDbApp/scripts
+  - object: /home/ec2-user/JaFlaskWebDbAppSrvr/scripts
     mode: 777
     pattern: "**"    
 hooks:
