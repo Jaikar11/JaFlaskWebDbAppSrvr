@@ -1,13 +1,13 @@
 version: 0.0
 os: linux
 files:
-  - source: /
-    destination: /home/ec2-user/
-permissions:
-  - object: /home/ec2-user/JaFlaskWebDbAppSrvr/scripts
-    mode: 777
-    pattern: "**"    
-hooks:
-  BeforeInstall:
-    - location: scripts/install_dependencies.sh
-      timeout: 300
+  - source: .
+    destination: /home/ec2-user/JaFlaskWebDbAppSrvr
+# permissions:
+#   - object: /home/ec2-user/JaFlaskWebDbAppSrvr/scripts
+#     mode: 777
+#     pattern: "**"    
+# hooks:
+#   BeforeInstall:
+#     - location: scripts/install_dependencies.sh
+#       timeout: 300
