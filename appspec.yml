@@ -8,6 +8,6 @@ files:
 #     mode: 777
 #     pattern: "**"    
 hooks:
-   AfterInstall:
-     - location:/home/ec2-user/JaFlaskWebDbAppSrvr/scripts/install_dependencies.sh
-       timeout: 300
+  AfterInstall:
+   - location: /home/ec2-user/JaFlaskWebDbAppSrvr/scripts/install_dependencies.sh
+     timeout: 300
