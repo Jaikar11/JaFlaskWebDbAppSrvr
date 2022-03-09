@@ -9,5 +9,5 @@ files:
 #     pattern: "**"    
 hooks:
   AfterInstall:
-   - location: /home/ec2-user/JaFlaskWebDbAppSrvr/scripts/install_dependencies.sh
+   - location: scripts/install_dependencies.sh
      timeout: 300
