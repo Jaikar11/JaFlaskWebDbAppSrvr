@@ -11,7 +11,7 @@ else
     echo "$SERVICE is not running or installed" 
 fi
 echo "path-->"
-echo "$pwd"
+echo "$(pwd)"
 if [[ -d "$DIRNAME"  ]]     
 then 
   echo "$DIRNAME - Directory exits"
