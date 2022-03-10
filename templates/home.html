@@ -37,13 +37,13 @@ document.getElementById("datetime").innerHTML=dt.toLocaleString();</script>
     </tr>
     {% endfor %}
 </table>
+<p><?php echo "hostname is:".gethostname(); ?></p>
 <footer>
     <p align="right"><small><b>HostIpAddress:</b> <span id="ipaddress"></span></small> </p>
         <script>
             let hostname = location.hostname;
             document.getElementById("ipaddress").innerHTML = hostname;
         </script>
-        <?php echo gethostname(); ?>
 </footer>
 </body>
 </html>
