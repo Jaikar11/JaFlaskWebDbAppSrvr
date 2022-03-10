@@ -1,0 +1,1 @@
+to check codedeployment detail logs - check opt->codedeploy-agent->deployment-root-><pipeline id>->d-** ->logs->script.log
