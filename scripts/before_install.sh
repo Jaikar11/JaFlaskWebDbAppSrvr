@@ -6,10 +6,12 @@ if pgrep -x "$SERVICE" >/dev/null   # Check if Flask is running. If running stop
 then
     echo "$SERVICE is running"
     ps aux | grep -i flask | grep -v grep| awk {'print $2'} | sudo xargs kill # Stop flask
+    echo "$SERVICE is stopped for install" 
 else
-    echo "$SERVICE is not running" 
+    echo "$SERVICE is not running or installed" 
 fi
-
+echo "path-->"
+echo "$pwd"
 if [[ -d "$DIRNAME"  ]]     
 then 
   echo "$DIRNAME - Directory exits"
