@@ -12,6 +12,7 @@ else
 fi
 echo "path-->"
 echo "$(pwd)"
+cd /home/ec2-user
 if [[ -d "$DIRNAME"  ]]     
 then 
   echo "$DIRNAME - Directory exits"
