@@ -38,7 +38,11 @@ document.getElementById("datetime").innerHTML=dt.toLocaleString();</script>
     {% endfor %}
 </table>
 <footer>
-    <p align="right"> hostname is: $(hostname)</p>
-</header>
+    <p align="right" id="demo"></p>
+        <script>
+            let hostname = location.hostname;
+            document.getElementById("demo").innerHTML = hostname;
+        </script>
+</footer>
 </body>
 </html>
