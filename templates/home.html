@@ -38,7 +38,7 @@ document.getElementById("datetime").innerHTML=dt.toLocaleString();</script>
     {% endfor %}
 </table>
 <footer>
-    <p align="right" id="ipaddress"><b>HostIpAddress:</b></p>
+    <p align="right"><small><b>HostIpAddress:</b> <span id="ipaddress"></span></small> </p>
         <script>
             let hostname = location.hostname;
             document.getElementById("ipaddress").innerHTML = hostname;
