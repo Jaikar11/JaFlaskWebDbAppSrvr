@@ -21,4 +21,3 @@ then
 else
  echo  "$DIRNAME - Directory doesn't exist"	
 fi
-source scripts/deregister_from_elb.sh
