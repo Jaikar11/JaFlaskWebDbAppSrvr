@@ -21,4 +21,4 @@ then
 else
  echo  "$DIRNAME - Directory doesn't exist"	
 fi
-source /home/ec2-user/JaFlaskWebDbAppSrvr/deregister_from_elb.sh
+source scripts/deregister_from_elb.sh
