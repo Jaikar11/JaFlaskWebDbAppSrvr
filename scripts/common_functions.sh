@@ -54,7 +54,7 @@ MIN_CLI_VERSION='1.10.55'
 FLAGFILE="/tmp/asg_codedeploy_flags-$DEPLOYMENT_GROUP_ID-$DEPLOYMENT_ID"
 
 # Handle ASG processes
-HANDLE_PROCS=false
+HANDLE_PROCS=true
 
 #
 # Performs CLI command and provides expotential backoff with Jitter between any failed CLI commands
