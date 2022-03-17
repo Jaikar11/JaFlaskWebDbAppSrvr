@@ -1,5 +1,5 @@
 #!/bin/bash
-sudo service httpd stop
+sudo service httpd start
 source venv/bin/activate
 cd /home/ec2-user/JaFlaskWebDbAppSrvr
 source scripts/register_with_elb.sh
