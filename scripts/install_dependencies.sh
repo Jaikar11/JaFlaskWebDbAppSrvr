@@ -2,6 +2,6 @@
 python3 -m venv venv
 source venv/bin/activate
 cd /home/ec2-user/
-cd /home/ec2-user/JaFlaskWebDbAppSrvr
+cd /home/ec2-user/JaFlaskWebDbAppSrvrpwd
 sudo pip3 install flask
 sudo pip3 install -r requirements.txt

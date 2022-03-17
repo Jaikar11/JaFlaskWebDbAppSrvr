@@ -4,10 +4,13 @@ files:
   - source: .
     destination: /home/ec2-user/JaFlaskWebDbAppSrvr
 hooks:
+  ApplicationStop:
+   - location: scripts/deregister_from_elb.sh
+     timeout: 300
   BeforeInstall:
    - location: scripts/before_install.sh
      timeout: 300
-  AfterInstall:
+  Install:
    - location: scripts/install_dependencies.sh
      timeout: 300
   ApplicationStart:
