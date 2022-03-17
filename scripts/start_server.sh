@@ -1,6 +1,6 @@
 #!/bin/bash
 sudo service httpd stop
-source register_with_elb.sh
+source /home/ec2-user/JaFlaskWebDbAppSrvr/register_with_elb.sh
 source venv/bin/activate
 cd /home/ec2-user/JaFlaskWebDbAppSrvr
 touch log.txt
