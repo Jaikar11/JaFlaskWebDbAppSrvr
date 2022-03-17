@@ -15,11 +15,11 @@
 
 # TARGET_LIST defines which target groups behind Load Balancer this instance should be part of.
 # The elements in TARGET_LIST should be seperated by space.
-TARGET_GROUP_LIST=""
+TARGET_GROUP_LIST="Ja-day12-trgt-grp-http"
 
 # PORT defines which port the application is running at.
 # If PORT is not specified, the script will use the default port set in target groups
-PORT=""
+PORT="80"
 
 # Under normal circumstances, you shouldn't need to change anything below this line.
 # -----------------------------------------------------------------------------
