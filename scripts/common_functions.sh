@@ -39,7 +39,7 @@ WAITER_ATTEMPTS=60
 # into StandBy. By default, ELB application load balancers wait 300 seconds for connections to drain,
 # so this will wait 360 seconds before timing out. To reduce or increase the timeout, increase/decrease
 # the connection draining in your ELB accordingly and update this value.
-WAITER_ATTEMPTS_ASG_ENTER_STANDBY=120
+WAITER_ATTEMPTS_ASG_ENTER_STANDBY=30
 
 # Number of seconds to wait between attempts for resource to be in a state for instance in ASG.
 WAITER_INTERVAL_ASG=3
