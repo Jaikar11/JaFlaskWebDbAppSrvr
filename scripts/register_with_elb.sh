@@ -44,49 +44,72 @@ if [ $? == 0 -a -n "${asg}" ]; then
         error_exit "Failed to move instance out of standby"
     else
         msg "Instance is no longer in Standby"
+        finish_msg
         exit 0
     fi
 fi
 
-msg "Instance is not part of an ASG, continuing..."
+msg "Instance is not part of an ASG, continuing with ELB"
 
-msg "Checking that user set at least one target group"
-if test -z "$TARGET_GROUP_LIST"; then
-    error_exit "Must have at least one target group to register to"
-fi
-
-msg "Checking whehter the port number has been set"
-if test -n "$PORT"; then
-    if ! [[ $PORT =~ ^[0-9]+$ ]] ; then
-       error_exit "$PORT is not a valid port number"
+if [ -z "$ELB_LIST" ]; then
+    error_exit "ELB_LIST is empty. Must have at least one load balancer to register to, or \"_all_\", \"_any_\" values."
+elif [ "${ELB_LIST}" = "_all_" ]; then
+    if [ "$(get_flag "dereg")" = "true" ]; then
+        msg "Finding all the ELBs that this instance was previously registered to"
+        if ! ELB_LIST=$(get_flag "ELBs"); then
+          error_exit "$FLAGFILE doesn't exist or is unreadble"
+        elif [ -z $ELB_LIST ]; then
+          error_exit "Couldn't find any. Must have at least one load balancer to register to."
+        fi
+    else
+        msg "Assuming this is the first deployment and ELB_LIST=_all_ so finishing successfully without registering."
+        finish_msg
+        exit 0
     fi
-    msg "Found port $PORT, it will be used for instance health check against target groups"
-else
-    msg "PORT variable is not set, will use the default port number set in target groups"
+elif [ "${ELB_LIST}" = "_any_" ]; then
+    if [ "$(get_flag "dereg")" = "true" ]; then
+        msg "Finding all the ELBs that this instance was previously registered to"
+        if ! ELB_LIST=$(get_flag "ELBs"); then
+            error_exit "$FLAGFILE doesn't exist or is unreadble"
+        elif [ -z $ELB_LIST ]; then
+            msg "Couldn't find any, but ELB_LIST=_any_ so finishing successfully without registering."
+            remove_flagfile
+            finish_msg
+            exit 0
+        fi
+    else
+        msg "Assuming this is the first deployment and ELB_LIST=_any_ so finishing successfully without registering."
+        finish_msg
+        exit 0
+    fi
 fi
 
-# Loop through all target groups the user set, and attempt to register this instance to them.
-for target_group in $TARGET_GROUP_LIST; do
-    msg "Registering $INSTANCE_ID from $target_group starts"
-    register_instance $INSTANCE_ID $target_group
+# Loop through all LBs the user set, and attempt to register this instance to them.
+for elb in $ELB_LIST; do
+    msg "Checking validity of load balancer named '$elb'"
+    validate_elb $INSTANCE_ID $elb
+    if [ $? != 0 ]; then
+        msg "Error validating $elb; cannot continue with this LB"
+        continue
+    fi
+
+    msg "Registering $INSTANCE_ID to $elb"
+    register_instance $INSTANCE_ID $elb
 
     if [ $? != 0 ]; then
-        error_exit "Failed to register instance $INSTANCE_ID from target group $target_group"
+        error_exit "Failed to register instance $INSTANCE_ID from ELB $elb"
     fi
 done
 
-# Wait for all Registrations to finish
-msg "Waiting for instance to register to its target groups"
-for target_group in $TARGET_GROUP_LIST; do
-    wait_for_state "alb" $INSTANCE_ID "healthy" $target_group
+# Wait for all registrations to finish
+msg "Waiting for instance to register to its load balancers"
+for elb in $ELB_LIST; do
+    wait_for_state "elb" $INSTANCE_ID "InService" $elb
     if [ $? != 0 ]; then
-        error_exit "Failed waiting for $INSTANCE_ID to return to $target_group"
+        error_exit "Failed waiting for $INSTANCE_ID to return to $elb"
     fi
 done
 
-msg "Finished $(basename $0) at $(/bin/date "+%F %T")"
+remove_flagfile
 
-end_sec=$(/bin/date +%s.%N)
-elapsed_seconds=$(echo "$end_sec - $start_sec" | /usr/bin/bc)
-
-msg "Elapsed time: $elapsed_seconds"
+finish_msg
