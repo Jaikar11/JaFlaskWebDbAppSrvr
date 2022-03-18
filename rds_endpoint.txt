@@ -1,1 +1,0 @@
-jaf1db.cedjya0la5xh.eu-west-2.rds.amazonaws.com:3306
