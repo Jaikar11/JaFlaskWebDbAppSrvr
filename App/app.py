@@ -64,7 +64,7 @@ def create_table(var_tableName, metadata):  # Function creates table if it doesn
         table_list = inspector.get_table_names()
         print("New Table Created  => ",table_list[0])
         conn.execute(t1.insert(),[
-            {'f1drivername':'Lewis Hamilton','f1wins':'103','status':'Unknown'},
+            {'f1drivername':'Lewis Hamilton','f1wins':'103','status':'Active'},
             {'f1drivername':'Michael Schumacher','f1wins':'91','status':'Retired'}])
     else:
         table_list = inspector.get_table_names()
@@ -87,11 +87,15 @@ print("Id", "\t", "Driver Name ", "\t", "F1 Wins", "\t", " Status")
 for _row in result:
     print(_row[0], "\t", _row[1], "\t", _row[2], "\t", _row[3])   
 
+with open("./ipaddress.txt", "r+") as ipaddress_file:
+    # Reading form a file
+    ip_address = ipaddress_file.read()
+
 @app.route("/")
 def homepage():
     """View function for Home Page."""
     query_result = engine.execute('SELECT * FROM f1driver_tbl')
-    return render_template("home.html", result=query_result)
+    return render_template("home.html", result=query_result, ip=ip_address)
 
 if __name__ == "__main__":
    # app.run(debug=False, host="0.0.0.0", port=3000)

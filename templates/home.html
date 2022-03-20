@@ -18,9 +18,6 @@ table, th, td {
 document.getElementById("datetime").innerHTML=dt.toLocaleString();</script>
 </header>
 <h1><center>F1 Driver Stats - (JA Test Page)</center></h1>
-
-<!--p><right>Date/Time: <span id="datetime"></span></right></p-->
-
 <table>
     <tr align="center">
         <th style="width:10%">Id</th>
@@ -38,7 +35,7 @@ document.getElementById("datetime").innerHTML=dt.toLocaleString();</script>
     {% endfor %}
 </table>
 <footer>
-    <div align="right"><object data="ipaddress.txt"></object></div>
+    <div align="right"><small><b>Host IPAddress: </b>{{ip}}</small></div>
 </footer>
 </body>
 </html>
