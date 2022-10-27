@@ -6,14 +6,14 @@ from sqlalchemy.exc import SQLAlchemyError
 app = Flask(__name__,template_folder='../templates')
 
 #Populate AWS DB End Point from rds_endpoint.txt file
-db_endpoint_file = open("/home/ec2-user/rds_endpoint.txt", "r")
-#db_endpoint_file = open("../rds_endpoint.txt", "r") #<--Uncomment to run locally and update the file path
+#db_endpoint_file = open("/home/ec2-user/rds_endpoint.txt", "r")
+db_endpoint_file = open("./rds_endpoint.txt", "r") #<--Uncomment to run locally and update the file path
 
 #read whole file to a string
-db_endpoint_file_text = db_endpoint_file.read()
+db_endpoint_file_text = db_endpoint_file.read().rstrip('\n')
 
 ## Manipulate and concate string
-db_endpoint_prefix = "mysql+pymysql://admin:Japassword1@"
+db_endpoint_prefix = "mysql+pymysql://admin:Japassword-1@"
 db_uri = db_endpoint_prefix + db_endpoint_file_text.replace(":3306","/f1dbse")
 
 #close file
@@ -107,8 +107,20 @@ def data():
         return f"The URL /data is accessed directly. Try going to '/form' to submit form"
     if request.method == 'POST':
         form_data = request.form
+        # for key, value in form_data.items():
+        #     print(f'{key}: {value}')
+        sql = "INSERT INTO f1driver_tbl (f1drivername, f1wins, status) VALUES (%s, %s, %s)"
+        sql_val=(request.form['F1driver_name'],request.form['F1_wins'],request.form['F1_status'])
+        query_result = engine.execute(sql,sql_val)
+        conn.commit()
+        print(engine.rowcount, "record inserted.")
         return render_template('data.html',form_data = form_data)
 
+
+    # <p>F1 Driver Name <input type = "text" name = "F1driver_name" /></p>
+    # <p>F1 wins <input type = "text" name = "F1_wins" /></p>
+    # <p>Status <input type = "text" name = "F1_Status" /></p>
+    # <p><input type = "submit" value = "Submit" /></p>
 if __name__ == "__main__":
    # app.run(debug=False, host="0.0.0.0", port=3000)
      app.run(debug=False, host='0.0.0.0', port=5000)
