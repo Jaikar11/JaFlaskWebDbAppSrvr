@@ -1,4 +1,3 @@
-
 from flask import Flask, render_template,request
 from sqlalchemy import (Column, Integer, MetaData, String, Table,
                         create_engine, inspect)
