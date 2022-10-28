@@ -72,15 +72,8 @@ def create_table(var_tableName, metadata):  # Function creates table if it doesn
         
         row_count = conn.execute(count_qry).fetchall()
         if row_count[0] != 0:
-           # try:
-                # Executing the SQL command
                 conn.execute(insert_stmt, insert_data1)
                 conn.execute(insert_stmt, insert_data2)
-                # Commit your changes in the database
-                #conn.commit()
-            #except:
-                # Rolling back in case of error
-               # conn.rollback()
 
 tbls = ['f1driver_tbl']  # Provides table /tables to be created
 for _t in tbls: create_table(_t, metadata)
@@ -109,7 +102,6 @@ def data():
     if request.method == 'GET':
         return f"The URL /data is accessed directly. Try going to '/form' to submit form"
     if request.method == 'POST':
-        print("POST-->")
         form_data = request.form
         sql = "INSERT INTO f1driver_tbl (f1drivername, f1wins, status) VALUES (%s, %s, %s)"
         sql_val=(request.form['F1driver_name'],request.form['F1_wins'],request.form['F1_status'])
