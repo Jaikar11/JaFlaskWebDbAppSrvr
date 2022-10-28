@@ -12,7 +12,6 @@ fi
 if [ ! -f "$FILE2"]; then
     touch "$FILE2"
     echo "$FILE2 created."
-    chmod 777 "$FILE2"
 fi
 chmod 777 "$FILE1"
 chmod 777 "$FILE2"
