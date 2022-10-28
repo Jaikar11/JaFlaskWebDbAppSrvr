@@ -28,8 +28,6 @@ metadata = MetaData()  # Create the Metadata Object
 inspector = ''
 conn=''
 
-
-
 try:
     create_engine(db_uri).connect()
     engine = create_engine(db_uri)
@@ -41,12 +39,6 @@ try:
 except SQLAlchemyError as err:
     print ("DB Not Connected. Check DB End point in rds_endpoint.txt file", 
             err.__cause__)  # this will give what kind of error
-    # engine = create_engine(us_db_uri)
-    # metadata.reflect(bind=engine)
-    # inspector = inspect(engine)
-    # conn = engine.connect()
-    # print("US DB Connected--> success")
-    # ukdb_flag = False
     
 
 def create_table(var_tableName, metadata):  # Function creates table if it doesn't exist
@@ -71,30 +63,21 @@ def create_table(var_tableName, metadata):  # Function creates table if it doesn
 
 tbls = ['f1driver_tbl']  # Provides table /tables to be created
 for _t in tbls: create_table(_t, metadata)
-
-# table = metadata.tables['f1driver_tbl']
-# select_st = select([table])
-
-# result = conn.execute(select_st)
-# print ("rresult",result)
-# for _row in result:
-#     print("select=>",_row[1])
   
-result = engine.execute('SELECT * FROM f1driver_tbl') 
+query_result = engine.execute('SELECT * FROM f1driver_tbl') 
 
 print("Id", "\t", "Driver Name ", "\t", "F1 Wins", "\t", " Status")
-for _row in result:
+for _row in query_result:
     print(_row[0], "\t", _row[1], "\t", _row[2], "\t", _row[3])   
 
 with open("./ipaddress.txt", "r+") as ipaddress_file:
-    # Reading form a file
-    ip_address = ipaddress_file.read()
+    ip_address = ipaddress_file.read()     # Reading form a file
 
 @app.route("/")
 def homepage():
     """View function for Home Page."""
-    query_result = engine.execute('SELECT * FROM f1driver_tbl')
-    return render_template("home.html", result=query_result, ip=ip_address)
+    select_result = conn.execute('SELECT * FROM f1driver_tbl')
+    return render_template("home.html", result=select_result, ip=ip_address)
 
 @app.route('/form')
 def form():
@@ -110,9 +93,8 @@ def data():
         #     print(f'{key}: {value}')
         sql = "INSERT INTO f1driver_tbl (f1drivername, f1wins, status) VALUES (%s, %s, %s)"
         sql_val=(request.form['F1driver_name'],request.form['F1_wins'],request.form['F1_status'])
-        query_result = engine.execute(sql,sql_val)
-        conn.commit()
-        print(engine.rowcount, "record inserted.")
+        query_result = conn.execute(sql,sql_val)
+        print("New Row Inserted")
         return render_template('data.html',form_data = form_data)
 
 
