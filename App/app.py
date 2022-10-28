@@ -51,7 +51,7 @@ except SQLAlchemyError as err:
 def create_table(var_tableName, metadata):  # Function creates table if it doesn't exist
     tables = metadata.tables.keys()
     #Creating a cursor object using the cursor() method
-    cursor = conn.cursor()
+    #cursor = conn.cursor()
     if var_tableName not in tables:
         t1 = Table(var_tableName, metadata,  # Create a table with the appropriate Columns
                    Column('id', Integer, primary_key=True, nullable=False, autoincrement=True),
@@ -72,15 +72,15 @@ def create_table(var_tableName, metadata):  # Function creates table if it doesn
         
         row_count = conn.execute(count_qry).fetchall()
         if row_count[0] != 0:
-            try:
+           # try:
                 # Executing the SQL command
-                cursor.execute(insert_stmt, insert_data1)
-                cursor.execute(insert_stmt, insert_data2)
+                conn.execute(insert_stmt, insert_data1)
+                conn.execute(insert_stmt, insert_data2)
                 # Commit your changes in the database
-                conn.commit()
-            except:
+                #conn.commit()
+            #except:
                 # Rolling back in case of error
-                conn.rollback()
+               # conn.rollback()
 
 tbls = ['f1driver_tbl']  # Provides table /tables to be created
 for _t in tbls: create_table(_t, metadata)
