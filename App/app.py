@@ -60,6 +60,12 @@ def create_table(var_tableName, metadata):  # Function creates table if it doesn
     else:
         table_list = inspector.get_table_names()
         print("Table already exists  => ",table_list[0])
+        qry='SELECT COUNT(*) FROM '+table_list[0]
+        row_count = conn.execute(qry)
+        if int(row_count) == 0:
+            conn.execute(table_list[0].insert(),[
+            {'f1drivername':'Lewis Hamilton','f1wins':'103','status':'Active'},
+            {'f1drivername':'Michael Schumacher','f1wins':'91','status':'Retired'}])
 
 tbls = ['f1driver_tbl']  # Provides table /tables to be created
 for _t in tbls: create_table(_t, metadata)
