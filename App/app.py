@@ -28,7 +28,7 @@ metadata = MetaData()  # Create the Metadata Object
 # Preparing SQL query to INSERT a record into the database.
 insert_stmt = ("INSERT INTO f1driver_tbl (f1drivername, f1wins, status) VALUES (%s, %s, %s)")
 insert_data1 = ('Lewis Hamilton','103','Active')
-insert_data2 = ('Lewis Hamilton','103','Active')
+insert_data2 = ('Michael Schumacher','91','Retired')
 #COUNT Query
 count_qry='SELECT COUNT(*) FROM f1driver_tbl'
 
@@ -110,19 +110,12 @@ def data():
         return f"The URL /data is accessed directly. Try going to '/form' to submit form"
     if request.method == 'POST':
         form_data = request.form
-        # for key, value in form_data.items():
-        #     print(f'{key}: {value}')
         sql = "INSERT INTO f1driver_tbl (f1drivername, f1wins, status) VALUES (%s, %s, %s)"
         sql_val=(request.form['F1driver_name'],request.form['F1_wins'],request.form['F1_status'])
         query_result = conn.execute(sql,sql_val)
         print("New Row Inserted")
         return render_template('data.html',form_data = form_data)
 
-
-    # <p>F1 Driver Name <input type = "text" name = "F1driver_name" /></p>
-    # <p>F1 wins <input type = "text" name = "F1_wins" /></p>
-    # <p>Status <input type = "text" name = "F1_Status" /></p>
-    # <p><input type = "submit" value = "Submit" /></p>
 if __name__ == "__main__":
    # app.run(debug=False, host="0.0.0.0", port=3000)
      app.run(debug=False, host='0.0.0.0', port=5000)
