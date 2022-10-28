@@ -25,6 +25,13 @@ engine = ''
 # Create a metadata instance/object
 metadata = MetaData()  # Create the Metadata Object
 
+# Preparing SQL query to INSERT a record into the database.
+insert_stmt = ("INSERT INTO f1driver_tbl (f1drivername, f1wins, status) VALUES (%s, %s, %s)")
+insert_data1 = ('Lewis Hamilton','103','Active')
+insert_data2 = ('Lewis Hamilton','103','Active')
+#COUNT Query
+count_qry='SELECT COUNT(*) FROM f1driver_tbl'
+
 inspector = ''
 conn=''
 
@@ -43,13 +50,15 @@ except SQLAlchemyError as err:
 
 def create_table(var_tableName, metadata):  # Function creates table if it doesn't exist
     tables = metadata.tables.keys()
+    #Creating a cursor object using the cursor() method
+    cursor = conn.cursor()
     if var_tableName not in tables:
         t1 = Table(var_tableName, metadata,  # Create a table with the appropriate Columns
                    Column('id', Integer, primary_key=True, nullable=False, autoincrement=True),
                    Column('f1drivername', String(30), nullable=False),
                    Column('f1wins', Integer),
                    Column('status', String(15)))# check if table exits
-                 
+                
         t1.create(engine)    
 
         table_list = inspector.get_table_names()
@@ -60,12 +69,18 @@ def create_table(var_tableName, metadata):  # Function creates table if it doesn
     else:
         table_list = inspector.get_table_names()
         print("Table already exists  => ",table_list[0])
-        qry='SELECT COUNT(*) FROM '+table_list[0]
-        row_count = conn.execute(qry)
-        if int(row_count) == 0:
-            conn.execute(table_list[0].insert(),[
-            {'f1drivername':'Lewis Hamilton','f1wins':'103','status':'Active'},
-            {'f1drivername':'Michael Schumacher','f1wins':'91','status':'Retired'}])
+        
+        row_count = conn.execute(count_qry).fetchall()
+        if row_count[0] != 0:
+            try:
+                # Executing the SQL command
+                cursor.execute(insert_stmt, insert_data1)
+                cursor.execute(insert_stmt, insert_data2)
+                # Commit your changes in the database
+                conn.commit()
+            except:
+                # Rolling back in case of error
+                conn.rollback()
 
 tbls = ['f1driver_tbl']  # Provides table /tables to be created
 for _t in tbls: create_table(_t, metadata)
