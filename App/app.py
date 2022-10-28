@@ -109,6 +109,7 @@ def data():
     if request.method == 'GET':
         return f"The URL /data is accessed directly. Try going to '/form' to submit form"
     if request.method == 'POST':
+        print("POST-->")
         form_data = request.form
         sql = "INSERT INTO f1driver_tbl (f1drivername, f1wins, status) VALUES (%s, %s, %s)"
         sql_val=(request.form['F1driver_name'],request.form['F1_wins'],request.form['F1_status'])
