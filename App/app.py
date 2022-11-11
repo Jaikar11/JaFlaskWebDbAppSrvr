@@ -17,11 +17,11 @@ with open(db_parms_file,"r") as f:
 for item in dict:
     print (item, dict[item])
     if str(item) == "sqlid":
-        var_sqlid = dict[item]
+        var_sqlid = dict[item].rstrip('\n')
     if str(item) == "sqlpass":
-        var_sqlpass = dict[item]
+        var_sqlpass = dict[item].rstrip('\n')
     if str(item) == "sqldb":
-        var_sqldb = dict[item]
+        var_sqldb = dict[item].rstrip('\n')
     
 
 #read whole file to a string
