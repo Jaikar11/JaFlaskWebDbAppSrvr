@@ -7,13 +7,31 @@ app = Flask(__name__,template_folder='../templates')
 #Populate AWS DB End Point from rds_endpoint.txt file
 #db_endpoint_file = open("/home/ec2-user/rds_endpoint.txt", "r")
 db_endpoint_file = open("./rds_endpoint.txt", "r") #<--Uncomment to run locally and update the file path
+db_parms_file = open("./sqldbparms.txt", "r") #<--Uncomment to run locally and update the file path
+
+#read sql parms from file
+with open(db_parms_file,"r") as f:
+    rows = ( line.split('=') for line in f)
+    dict = { row[0]:row[1] for row in rows }
+
+for item in dict:
+    print (item, dict[item])
+    if str(item) == "sqlid":
+        var_sqlid = dict[item]
+    if str(item) == "sqlpass":
+        var_sqlpass = dict[item]
+    if str(item) == "sqldb":
+        var_sqldb = dict[item]
+    
 
 #read whole file to a string
 db_endpoint_file_text = db_endpoint_file.read().rstrip('\n')
 
 ## Manipulate and concate string
-db_endpoint_prefix = "mysql+pymysql://admin:Japassword-1@"
-db_uri = db_endpoint_prefix + db_endpoint_file_text.replace(":3306","/f1dbse")
+db_endpoint_prefix = "mysql+pymysql://"+var_sqlid+":"+var_sqlpass
+#db_endpoint_prefix = "mysql+pymysql://admin:Japassword-1@"
+#db_uri = db_endpoint_prefix + db_endpoint_file_text.replace(":3306","/f1dbse")
+db_uri = db_endpoint_prefix +"@"+ db_endpoint_file_text+"/"+var_sqldb
 
 #close file
 db_endpoint_file.close()
