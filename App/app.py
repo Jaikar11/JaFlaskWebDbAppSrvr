@@ -7,7 +7,7 @@ app = Flask(__name__,template_folder='../templates')
 #Populate AWS DB End Point from rds_endpoint.txt file
 #db_endpoint_file = open("/home/ec2-user/rds_endpoint.txt", "r")
 db_endpoint_file = open("./rds_endpoint.txt", "r") #<--Uncomment to run locally and update the file path
-db_parms_file = open("./sqldbparms.txt", "r") #<--Uncomment to run locally and update the file path
+db_parms_file = "./sqldbparms.txt" #<--Uncomment to run locally and update the file path
 
 #read sql parms from file
 with open(db_parms_file,"r") as f:
