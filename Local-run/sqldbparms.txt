@@ -1,0 +1,4 @@
+hostname=localhost
+sqlid=admin
+sqlpass=Japassword-1
+sqldb=f1dbse
