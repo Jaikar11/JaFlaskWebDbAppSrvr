@@ -1,7 +1,7 @@
 #!/bin/bash
-set -x
+#set -x
 
-cd ~/Ja-Repos/JaFlaskWebDbAppSrvr
+cd ~/Ja-Repos/JaFlaskWebDbAppSrvr/Local-run
 if [[ "$(python3 -V)" =~ "Python 3" ]];then
     echo "Python 3 is installed"
 else

@@ -87,8 +87,6 @@ def create_table(var_tableName, metadata):  # Function creates table if it doesn
         table_list = inspector.get_table_names()
         print("Table already exists  => ",table_list[0])
         row_count = conn.execute(count_qry).fetchall()
-        print("row_count",type(row_count))
-        print("row_count0",type(row_count[0]))
         for rc in row_count:
             if rc[0] == 0:
                conn.execute(insert_stmt, insert_data1)
