@@ -1,17 +1,18 @@
 #!/bin/bash
-#set -x
+set -x
 
-cd ~/Ja-Repos/JaFlaskWebDbAppSrvr/Local-run
-if [[ "$(python3 -V)" =~ "Python 3" ]];then
+#cd ~/Ja-Repos/JaFlaskWebDbAppSrvr/Local-run
+if [ "$(python3 --version)"=~"Python 3" ];then
     echo "Python 3 is installed"
 else
     echo "ERROR: Python 3 is available"
     exit 1 # terminate as Python3 is not available
 fi
 
-if [[ "$(pip3 -V)" =~ "not found" ]];then
-    sudo apt install python3-pip -y
-    if [ "$(pip3 -V)" =~ "not found" ];then
+if [[ $(pip3 --version) == *"not found"* ]];then
+    apt update
+    apt-get install -y python3-pip python3-dev
+    if [[ $(pip3 --version) == *"not found"* ]];then
         echo "ERROR: Python 3 pip is not installed / available"
         exit 1 # terminate as pip3 is not available
     else
@@ -21,9 +22,9 @@ else
     echo "Python pip3 is available"
 fi
 
-if [[ "$(virtualenv --version)" =~ "not found" ]];then
-    sudo apt install python3-virtualenv -y
-    if [ "$(pip3 -V)" =~ "not found" ];then
+if [[ "$(virtualenv --version)" == *"not found"* ]];then
+    apt-get install -y python3-virtualenv
+    if [[ "$(virtualenv --version)" == *"not found"* ]];then
         echo "ERROR: virtualenv pip is not installed / available"
         exit 1 # terminate as virtualenv is not available
     else
@@ -33,7 +34,7 @@ else
     echo "virtualenv is available"
 fi
 
-python3 -m venv venv
+python3 -m virtualenv venv
 source venv/bin/activate
 FILE1="log.txt"
 FILE2="ipaddress.txt"
@@ -48,7 +49,7 @@ fi
 chmod 777 "$FILE1"
 chmod 777 "$FILE2"
 hostname -I | awk '{print $1}' > ./ipaddress.txt
-echo "localhost" > ./rds_endpoint.txt
-sudo pip3 install -r requirements.txt
-sudo FLASK_APP=App.app.py flask run --host='0.0.0.0' --port=80
+echo "jadb1.cmuc2rb0a45r.us-east-1.rds.amazonaws.com:3306" > ./rds_endpoint.txt
+pip3 install -r requirements.txt
+FLASK_APP=App.app.py flask run --host='0.0.0.0' --port=5000
 #FLASK_APP=App.app.py flask run --host='0.0.0.0' --port=5000 >>log.txt 2>&1 &

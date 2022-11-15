@@ -1,0 +1,1 @@
+jadb1.cmuc2rb0a45r.us-east-1.rds.amazonaws.com:3306
