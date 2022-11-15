@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Home - F1 Driver Stats HomePage</title>
+    <meta http-equiv="refresh" content="05" />
+</head>
+<style>
+table, th, td {
+  border: 1px solid black;margin-left:auto;margin-right:auto;
+}
+
+</style>
+<body style="background-color:powderblue;">
+<header>
+    <p align="right"><small><b>Date/Time:</b> <span id="datetime"></span></small> </p>
+    <script>var dt = new Date();
+document.getElementById("datetime").innerHTML=dt.toLocaleString();</script>
+</header>
+<h1><center>F1 Driver Stats - (JA Test Page)</center></h1>
+
+<table>
+    <tr align="center">
+        <th style="width:10%">Id</th>
+        <th style="width:45%">F1 Driver Name</th>
+        <th style="width:20%">F1 Wins</th>
+        <th style="width:25%"> Status</th>
+    </tr>
+    {% for _row in result %}
+    <tr>
+        <td style="text-align:center">{{ _row[0] }}</td>
+        <td style="text-align:center">{{ _row[1] }}</td>
+        <td style="text-align:center">{{ _row[2] }}</td>
+        <td style="text-align:center">{{ _row[3] }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<footer>
+    <div align="right"><small><b>Host IPAddress: </b>{{ip}}</small></div>
+</footer>
+        <a href = "form">
+          Click this link to insert F1 data 
+        </a>
+</body>
+</html>

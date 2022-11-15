@@ -1,45 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>Home - F1 Driver Stats HomePage</title>
-    <meta http-equiv="refresh" content="05" />
-</head>
-<style>
-table, th, td {
-  border: 1px solid black;margin-left:auto;margin-right:auto;
-}
-
-</style>
-<body style="background-color:powderblue;">
-<header>
-    <p align="right"><small><b>Date/Time:</b> <span id="datetime"></span></small> </p>
-    <script>var dt = new Date();
-document.getElementById("datetime").innerHTML=dt.toLocaleString();</script>
-</header>
-<h1><center>F1 Driver Stats - (JA Test Page)</center></h1>
-
-<table>
-    <tr align="center">
-        <th style="width:10%">Id</th>
-        <th style="width:45%">F1 Driver Name</th>
-        <th style="width:20%">F1 Wins</th>
-        <th style="width:25%"> Status</th>
-    </tr>
-    {% for _row in result %}
-    <tr>
-        <td style="text-align:center">{{ _row[0] }}</td>
-        <td style="text-align:center">{{ _row[1] }}</td>
-        <td style="text-align:center">{{ _row[2] }}</td>
-        <td style="text-align:center">{{ _row[3] }}</td>
-    </tr>
-    {% endfor %}
-</table>
-<footer>
-    <div align="right"><small><b>Host IPAddress: </b>{{ip}}</small></div>
-</footer>
-        <a href = "form">
-          Click this link to insert F1 data 
-        </a>
-</body>
+<html>
+	<head>
+        <meta charset="utf-8">
+        <title>Home - F1 Driver Stats HomePage</title>
+        <!--meta http-equiv="refresh" content="05" /-->
+        <link rel="stylesheet" href='/static/style.css' />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+	</head>
+	<body class="loggedin">
+		<nav class="navtop">
+			<div>
+				<h1>F1 Driver Stats</h1>
+                <a href="{{ url_for('homepage') }}"><i class="fas fa-home"></i>Home</a>
+				<a href="{{ url_for('form') }}"><i class="fas fa-user-circle"></i>Input Stats</a>
+				<a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i>Logout</a>
+			</div>
+		</nav>
+		<div class="content">
+			<table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>F1 Driver Name</th>
+                        <th>F1 Wins</th>
+                        <th> Status</th>
+                    </tr>
+                </thead>
+                {% for _row in result %}
+                <tbody>
+                    <tr>
+                        <td>{{ _row[0] }}</td>
+                        <td>{{ _row[1] }}</td>
+                        <td>{{ _row[2] }}</td>
+                        <td>{{ _row[3] }}</td>
+                    </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+		</div>
+	</body>
+    <footer>
+    <section id="footer">
+        <div class="footer-sec"><i class="fa fa-server"></i>  
+          Host IP address : <a href="#">{{ip}}</a>
+        </div>
+      </section>
+    </footer>
 </html>

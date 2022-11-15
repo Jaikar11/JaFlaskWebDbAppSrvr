@@ -1,16 +1,22 @@
 #!/bin/bash
 #set -x
 
-if [[ "$(python3 -V)" =~ "Python 3" ]];then
+#cd ~/Ja-Repos/JaFlaskWebDbAppSrvr/Local-run
+python3 --version
+if [[ $? -eq 0 ]];then
     echo "Python 3 is installed"
 else
     echo "ERROR: Python 3 is available"
     exit 1 # terminate as Python3 is not available
 fi
 
-if [[ "$(pip3 -V)" =~ "not found" ]];then
-    sudo apt install python3-pip -y
-    if [ "$(pip3 -V)" =~ "not found" ];then
+pip3 --version
+
+if [[ $? -ne 0 ]];then
+    apt update
+    apt-get install -y python3-pip python3-dev
+    pip3 --version
+    if [[ $? -ne 0 ]];then
         echo "ERROR: Python 3 pip is not installed / available"
         exit 1 # terminate as pip3 is not available
     else
@@ -20,9 +26,11 @@ else
     echo "Python pip3 is available"
 fi
 
-if [[ "$(virtualenv --version)" =~ "not found" ]];then
-    sudo apt install python3-virtualenv -y
-    if [ "$(pip3 -V)" =~ "not found" ];then
+virtualenv --version
+if [[ $? -ne 0 ]];then
+    apt-get install -y python3-virtualenv
+    virtualenv --version
+    if [[ $? -ne 0 ]];then
         echo "ERROR: virtualenv pip is not installed / available"
         exit 1 # terminate as virtualenv is not available
     else
@@ -32,7 +40,7 @@ else
     echo "virtualenv is available"
 fi
 
-python3 -m venv venv
+python3 -m virtualenv venv
 source venv/bin/activate
 FILE1="log.txt"
 FILE2="ipaddress.txt"
@@ -47,7 +55,11 @@ fi
 chmod 777 "$FILE1"
 chmod 777 "$FILE2"
 hostname -I | awk '{print $1}' > ./ipaddress.txt
-echo "localhost" > ./rds_endpoint.txt
-sudo pip3 install -r requirements.txt
-sudo FLASK_APP=App.app.py flask run --host='0.0.0.0' --port=80
+#hostname | awk '{print $1}' > ./ipaddress.txt
+echo "a35e53caf22c.mylabserver.com" > ./rds_endpoint.txt
+pip3 install -r requirements.txt
+pip install wheel
+echo "$(pwd)"
+gunicorn --bind 0.0.0.0:8080 --pythonpath $(pwd)/App wsgi:app
+#FLASK_APP=App.App.py flask run --host='0.0.0.0' --port=5000
 #FLASK_APP=App.app.py flask run --host='0.0.0.0' --port=5000 >>log.txt 2>&1 &
