@@ -1,18 +1,22 @@
 #!/bin/bash
-set -x
+#set -x
 
 #cd ~/Ja-Repos/JaFlaskWebDbAppSrvr/Local-run
-if [ "$(python3 --version)"=~"Python 3" ];then
+python3 --version
+if [[ $? -eq 0 ]];then
     echo "Python 3 is installed"
 else
     echo "ERROR: Python 3 is available"
     exit 1 # terminate as Python3 is not available
 fi
 
-if [[ $(pip3 --version) == *"not found"* ]];then
+pip3 --version
+
+if [[ $? -ne 0 ]];then
     apt update
     apt-get install -y python3-pip python3-dev
-    if [[ $(pip3 --version) == *"not found"* ]];then
+    pip3 --version
+    if [[ $? -ne 0 ]];then
         echo "ERROR: Python 3 pip is not installed / available"
         exit 1 # terminate as pip3 is not available
     else
@@ -22,9 +26,11 @@ else
     echo "Python pip3 is available"
 fi
 
-if [[ "$(virtualenv --version)" == *"not found"* ]];then
+virtualenv --version
+if [[ $? -ne 0 ]];then
     apt-get install -y python3-virtualenv
-    if [[ "$(virtualenv --version)" == *"not found"* ]];then
+    virtualenv --version
+    if [[ $? -ne 0 ]];then
         echo "ERROR: virtualenv pip is not installed / available"
         exit 1 # terminate as virtualenv is not available
     else
@@ -49,7 +55,7 @@ fi
 chmod 777 "$FILE1"
 chmod 777 "$FILE2"
 hostname -I | awk '{print $1}' > ./ipaddress.txt
-echo "jadb1.cmuc2rb0a45r.us-east-1.rds.amazonaws.com:3306" > ./rds_endpoint.txt
+echo "172.31.112.44" > ./rds_endpoint.txt
 pip3 install -r requirements.txt
 FLASK_APP=App.app.py flask run --host='0.0.0.0' --port=5000
 #FLASK_APP=App.app.py flask run --host='0.0.0.0' --port=5000 >>log.txt 2>&1 &
