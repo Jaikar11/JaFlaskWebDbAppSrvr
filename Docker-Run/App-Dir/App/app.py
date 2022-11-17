@@ -1,13 +1,17 @@
+import os
 from flask import Flask, render_template,request
 from sqlalchemy import (Column, Integer, MetaData, String, Table,
                         create_engine, inspect)
 from sqlalchemy.exc import SQLAlchemyError
-app = Flask(__name__,template_folder='../templates')
 
+app = Flask(__name__,template_folder='../templates')
+# parent directory
+parent_dir = os.path.dirname(os.path.dirname(__file__))
 #Populate AWS DB End Point from rds_endpoint.txt file
 #db_endpoint_file = open("/home/ec2-user/rds_endpoint.txt", "r")
-db_endpoint_file = open("./rds_endpoint.txt", "r") #<--Uncomment to run locally and update the file path
-db_parms_file = "./sqldbparms.txt" #<--Uncomment to run locally and update the file path
+db_endpoint_file = open(parent_dir+"/rds_endpoint.txt", "r") #<--Uncomment to run locally and update the file path
+
+db_parms_file = parent_dir+"/sqldbparms.txt" #<--Uncomment to run locally and update the file path
 
 #read sql parms from file
 with open(db_parms_file,"r") as f:
@@ -103,7 +107,7 @@ print("Id", "\t", "Driver Name ", "\t", "F1 Wins", "\t", " Status")
 for _row in query_result:
     print(_row[0], "\t", _row[1], "\t", _row[2], "\t", _row[3])
 
-with open("./ipaddress.txt", "r+") as ipaddress_file:
+with open(parent_dir+"/ipaddress.txt", "r+") as ipaddress_file:
     ip_address = ipaddress_file.read()     # Reading form a file
 
 @app.route("/")

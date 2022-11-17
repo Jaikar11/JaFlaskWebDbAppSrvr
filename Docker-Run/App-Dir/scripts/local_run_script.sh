@@ -55,7 +55,7 @@ fi
 chmod 777 "$FILE1"
 chmod 777 "$FILE2"
 hostname -I | awk '{print $1}' > ./ipaddress.txt
-echo "172.31.112.44" > ./rds_endpoint.txt
+echo "a35e53caf22c.mylabserver.com" > ./rds_endpoint.txt
 #pip3 install -r requirements.txt # requirements are installed as part of the image build. Hence commented
 FLASK_APP=App.app.py flask run --host='0.0.0.0' --port=5000
 #FLASK_APP=App.app.py flask run --host='0.0.0.0' --port=5000 >>log.txt 2>&1 &
