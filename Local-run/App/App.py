@@ -1,10 +1,12 @@
 import os
-from flask import Flask, render_template,request
+from flask import Flask, render_template,request,session,url_for,redirect
 from sqlalchemy import (Column, Integer, MetaData, String, Table,
                         create_engine, inspect)
 from sqlalchemy.exc import SQLAlchemyError
 
-app = Flask(__name__,template_folder='../templates')
+app = Flask(__name__,template_folder='../templates',static_folder='../static')
+# Change this to your secret key (can be anything, it's for extra protection)
+app.secret_key = 's_ecre_t'
 # parent directory
 parent_dir = os.path.dirname(os.path.dirname(__file__))
 #Populate AWS DB End Point from rds_endpoint.txt file
@@ -46,12 +48,18 @@ engine = ''
 # Create a metadata instance/object
 metadata = MetaData()  # Create the Metadata Object
 
-# Preparing SQL query to INSERT a record into the database.
-insert_stmt = ("INSERT INTO f1driver_tbl (f1drivername, f1wins, status) VALUES (%s, %s, %s)")
-insert_data1 = ('Lewis Hamilton','103','Active')
-insert_data2 = ('Michael Schumacher','91','Retired')
+# f1_driver_tbl Preparing SQL query to INSERT a record into the database.
+f1_driver_insert_stmt = ("INSERT INTO f1driver_tbl (f1drivername, f1wins, status) VALUES (%s, %s, %s)")
+f1_driver_insert_data1 = ('Lewis Hamilton','103','Active')
+f1_driver_insert_data2 = ('Michael Schumacher','91','Retired')
 #COUNT Query
-count_qry='SELECT COUNT(f1wins) FROM f1driver_tbl'
+f1_driver_count_qry='SELECT COUNT(f1wins) FROM f1driver_tbl'
+
+# f1_accnt_tbl Preparing SQL query to INSERT a record into the database.
+f1_accnt_insert_stmt = ("INSERT INTO f1_accnt_tbl (id,username,password,email) VALUES (%s, %s, %s, %s)")
+f1_accnt_insert_data1 = ('1','f1admin','f1-admin-pass','f1-admin@f1admin.com')
+#COUNT Query
+f1_accnt_count_qry='SELECT COUNT(username) FROM f1_accnt_tbl'
 
 inspector = ''
 conn=''
@@ -74,6 +82,7 @@ def create_table(var_tableName, metadata):  # Function creates table if it doesn
     #Creating a cursor object using the cursor() method
     #cursor = conn.cursor()
     if var_tableName not in tables:
+      if var_tableName == "f1driver_tbl":
         t1 = Table(var_tableName, metadata,  # Create a table with the appropriate Columns
                    Column('id', Integer, primary_key=True, nullable=False, autoincrement=True),
                    Column('f1drivername', String(30), nullable=False),
@@ -84,21 +93,46 @@ def create_table(var_tableName, metadata):  # Function creates table if it doesn
 
         table_list = inspector.get_table_names()
         print("New Table Created  => ",table_list[0])
-        conn.execute(t1.insert(),[
-            {'f1drivername':'Lewis Hamilton','f1wins':'103','status':'Active'},
-            {'f1drivername':'Michael Schumacher','f1wins':'91','status':'Retired'}])
-    else:
-        table_list = inspector.get_table_names()
-        print("Table already exists  => ",table_list[0])
-        row_count = conn.execute(count_qry).fetchall()
-        for rc in row_count:
-            if rc[0] == 0:
-               conn.execute(insert_stmt, insert_data1)
-               conn.execute(insert_stmt, insert_data2)
-               print("Table Empty. 2 new rows inserted")
-               break
+        conn.execute(f1_driver_insert_stmt, f1_driver_insert_data1)
+        conn.execute(f1_driver_insert_stmt, f1_driver_insert_data2)
+        # conn.execute(t1.insert(),[
+        #     {'f1drivername':'Lewis Hamilton','f1wins':'103','status':'Active'},
+        #     {'f1drivername':'Michael Schumacher','f1wins':'91','status':'Retired'}])
+      elif var_tableName == "f1_accnt_tbl":
+            t2 = Table(var_tableName, metadata,  # Create a table with the appropriate Columns
+                    Column('id', Integer, primary_key=True, nullable=False, autoincrement=True),
+                    Column('username', String(50),nullable=False,),
+                    Column('password', String(50),nullable=False,),
+                    Column('email', String(100),nullable=False,))# check if table exits
 
-tbls = ['f1driver_tbl']  # Provides table /tables to be created
+            t2.create(engine)
+
+            table_list = inspector.get_table_names()
+            print("New Table Created  => ",table_list[0])
+            conn.execute(f1_driver_insert_stmt, f1_driver_insert_data1)
+            conn.execute(f1_driver_insert_stmt, f1_driver_insert_data2)
+            # conn.execute(t2.insert(),[
+            #     {'id':'1','username':'f1admin','password':'f1-admin','email':'f1-admin@f1admin.com'}])
+        
+    else:
+            table_list = inspector.get_table_names()
+            print("Table already exists  => ",table_list[0])
+            f1_row_count = conn.execute(f1_driver_count_qry).fetchall()
+            for rc in f1_row_count:
+                if rc[0] == 0:
+                   conn.execute(f1_driver_insert_stmt, f1_driver_insert_data1)
+                   conn.execute(f1_driver_insert_stmt, f1_driver_insert_data2)
+                   print("Table Empty. 2 new rows inserted")
+                   break
+            print("Table already exists  => ",table_list[1])
+            acc_row_count = conn.execute(f1_accnt_count_qry).fetchall()
+            for acc_rc in acc_row_count:
+                if acc_rc[0] == 0:
+                   conn.execute(f1_accnt_insert_stmt, f1_accnt_insert_data1)
+                   print("Account Table Empty. 1 new row inserted")
+                   break
+
+tbls = ['f1driver_tbl','f1_accnt_tbl']  # Provides table /tables to be created
 for _t in tbls: create_table(_t, metadata)
 
 query_result = engine.execute('SELECT * FROM f1driver_tbl')
@@ -120,6 +154,36 @@ def homepage():
 def form():
     return render_template('form.html')
 
+@app.route('/login', methods=['POST','GET'])
+def login():
+    # Output message if something goes wrong...
+    msg = ''
+    # Check if "username" and "password" POST requests exist (user submitted form)
+    if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
+        # Create variables for easy access
+        username = request.form['username']
+        password = request.form['password']
+        # Check if account exists using MySQL
+        ##cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        ##cursor.execute('SELECT * FROM accounts WHERE username = %s AND password = %s', (username, password,))
+        # Fetch one record and return result
+        account = conn.execute('SELECT * FROM f1_accnt_tbl WHERE username = %s AND password = %s', (username, password,)).fetchone()
+        # If account exists in accounts table in out database
+        if account:
+            # Create session data, we can access this data in other routes
+            session['loggedin'] = True
+            session['id'] = account['id']
+            session['username'] = account['username']
+            # Redirect to home page
+            #return 'Logged in successfully!'
+            return redirect(url_for('homepage'))
+        else:
+            # Account doesnt exist or username/password incorrect
+            msg = 'Incorrect username/password!'
+        # Show the login form with message (if any)
+        return render_template('login.html', msg=msg)
+    return render_template('login.html', msg=msg)
+
 @app.route('/data/', methods = ['POST', 'GET'])
 def data():
     if request.method == 'GET':
@@ -132,6 +196,14 @@ def data():
         print("New Row Inserted")
         return render_template('data.html',form_data = form_data)
 
+@app.route('/logout')
+def logout():
+    # Remove session data, this will log the user out
+   session.pop('loggedin', None)
+   session.pop('id', None)
+   session.pop('username', None)
+   # Redirect to login page
+   return redirect(url_for('login'))
 if __name__ == "__main__":
    # app.run(debug=False, host="0.0.0.0", port=3000)
      app.run(debug=False, host='0.0.0.0')
