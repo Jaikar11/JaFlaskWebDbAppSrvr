@@ -1,12 +1,34 @@
-<form action="/data" method = "POST">
-    <p>F1 Driver Name <input type = "text" name = "F1driver_name" /></p>
-    <p>F1 wins <input type = "text" name = "F1_wins" /></p>
-    <p>Status <input type = "text" name = "F1_status" /></p>
-    <p><input type = "submit" value = "Submit" /></p>
-</form>
-    <!-- HTML Code -->
-    <button>
-        <a href="{{ url_for('homepage') }}">
-          Return to Home Page
-        </a>
-      </button>
+      <!DOCTYPE html>
+      <html>
+        <head> 
+          <meta charset="utf-8">
+          <title>F1 Data Input</title>
+          <!--link rel="stylesheet" href="./style.css" -->
+              <link rel="stylesheet" href='/static/style.css' />
+              <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+          </head>
+        <body>
+          <div class="data">
+            <h1>F1 Data Input</h1>
+            <form action="/data" method="POST">
+              <label for="f1drivername">
+                <i class="fas fa-user"></i>
+              </label>
+              <input type="text" name="F1driver_name" placeholder="F1 Driver Name" id="f1drivername" required>
+              <label for="f1wins">
+                <i class="fas fa-flag-checkered"></i>
+              </label>
+              <input type="text" name="F1_wins" placeholder="F1 Wins" id="f1wins" required>
+              <input type="submit" value="Submit">
+            </form>
+            <label for="f1driverstatus">
+              <i class="fa-solid fa-wave-pulse"></i>
+            </label>
+            <input type="text" name="F1_status" placeholder="Active / Retired" id="f1driverstatus" required>
+            <input type="submit" value="Submit">
+          </form>
+          </div>
+        </body>
+      </html>
+
+      <p><input type = "submit" value = "Submit" /></p>
