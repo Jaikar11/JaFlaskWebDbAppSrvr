@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: ja-configmap
 data:
-  mongo_database_url: ja-mongo-db-service
+  mongo_database_url: ja-flask-app-db-service
