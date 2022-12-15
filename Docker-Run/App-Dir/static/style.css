@@ -9,7 +9,7 @@ body {
   	background-color: #435165;
   	margin: 0;
 }
-.login, .data {
+.login, .data, .register {
   	width: 400px;
   	background-color: #ffffff;
   	box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.3);
@@ -57,38 +57,38 @@ body {
     color: #009879;
 }
 
-.login h1, .data h1 {
+.login h1, .data h1, .register h1 {
   	text-align: center;
   	color: #5b6574;
   	font-size: 24px;
   	padding: 20px 0 20px 0;
   	border-bottom: 1px solid #dee0e4;
 }
-.login .links, .data .links {
+.login .links, .data .links, .register .links {
   	display: flex;
   	padding: 0 15px;
 }
-.login .links a, .data .links a {
+.login .links a, .data .links a, .register .links a {
   	color: #adb2ba;
   	text-decoration: none;
   	display: inline-flex;
   	padding: 0 10px 10px 10px;
   	font-weight: bold;
 }
-.login .links a:hover, .data .links a:hover {
+.login .links a:hover, .data .links a:hover, .register .links a:hover {
   	color: #9da3ac;
 }
-.login .links a.active, .data .links a.active {
+.login .links a.active, .data .links a.active, .register .links a.active {
   	border-bottom: 3px solid #3274d6;
   	color: #3274d6;
 }
-.login form, .data form {
+.login form, .data form, .register form {
   	display: flex;
   	flex-wrap: wrap;
   	justify-content: center;
   	padding-top: 20px;
 }
-.login form label, .data form label {
+.login form label, .data form label, .register form label {
   	display: flex;
   	justify-content: center;
   	align-items: center;
@@ -104,7 +104,16 @@ body {
   	margin-bottom: 20px;
   	padding: 0 15px;
 }
-.login form input[type="submit"], .data form input[type="submit"] {
+
+.register form input[type="password"], .register form input[type="text"], .register form input[type="email"] {
+	width: 310px;
+	height: 50px;
+	border: 1px solid #dee0e4;
+	margin-bottom: 20px;
+	padding: 0 15px;
+}
+
+.login form input[type="submit"], .data form input[type="submit"], .register form input[type="submit"] {
   	width: 100%;
   	padding: 15px;
   	margin-top: 20px;
@@ -115,7 +124,7 @@ body {
   	color: #ffffff;
   	transition: background-color 0.2s;
 }
-.login form input[type="submit"]:hover, .data form input[type="submit"]:hover {
+.login form input[type="submit"]:hover, .data form input[type="submit"]:hover, .register form input[type="submit"]:hover {
   	background-color: #2868c7;
   	transition: background-color 0.2s;
 }
