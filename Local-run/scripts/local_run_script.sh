@@ -56,7 +56,19 @@ chmod 777 "$FILE1"
 chmod 777 "$FILE2"
 hostname -I | awk '{print $1}' > ./ipaddress.txt
 #hostname | awk '{print $1}' > ./ipaddress.txt
+#Check if this is running in acloudguru AWS labserver or not
+# if [[ ! -z $((hostnamectl) | grep -i aws) ]]; then 
+#   echo "Running in ACG AWS labserver" 
+#   # Use Private IP of Mysql server(also hosted in aws labserver)                              
+#   echo "172.31.112.44" > ./rds_endpoint.txt
+# else 
+#   echo "Running in ACG AWS labserver"
+#   # If Webserver is outside of aws labserver us MYSQL Public IP address                              
+#   echo "a35e53caf22c.mylabserver.com" > ./rds_endpoint.txt
+# fi
 echo "172.31.112.44" > ./rds_endpoint.txt
+#echo "a35e53caf22c.mylabserver.com" > ./rds_endpoint.txt
+
 echo "a35e53caf22c.mylabserver.com" > ./rds_endpoint.txt
 pip3 install -r requirements.txt
 pip install wheel

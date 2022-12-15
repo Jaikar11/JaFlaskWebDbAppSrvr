@@ -56,7 +56,8 @@ chmod 777 "$FILE1"
 chmod 777 "$FILE2"
 hostname -I | awk '{print $1}' > ./ipaddress.txt
 #hostname | awk '{print $1}' > ./ipaddress.txt
-echo "a35e53caf22c.mylabserver.com" > ./rds_endpoint.txt
+echo "172.31.112.44" > ./rds_endpoint.txt
+#echo "a35e53caf22c.mylabserver.com" > ./rds_endpoint.txt
 pip3 install -r requirements.txt
 pip install wheel
 echo "$(pwd)"
