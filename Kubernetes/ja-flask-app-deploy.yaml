@@ -18,7 +18,7 @@ spec:
         - name: flask-app-image
           image: 
           valueFrom:
-            configMapKeyRef:
+           - configMapKeyRef:
               name: ja-flask-configmap
               key: image_location
           ports:
