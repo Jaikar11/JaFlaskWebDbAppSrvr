@@ -10,3 +10,6 @@ https://www.digitalocean.com/community/tutorials/how-to-add-authentication-to-yo
 https://github.com/Jaikar11/JaFlaskWebDbAppSrvr.git
 
 https://codeshack.io/login-system-python-flask-mysql/#creatingtheregistrationsystem
+
+https://blog.zachinachshon.com/index.html
+https://medium.com/swlh/how-to-run-locally-built-docker-images-in-kubernetes-b28fbc32cc1d
