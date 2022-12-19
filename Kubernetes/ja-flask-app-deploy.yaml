@@ -16,7 +16,11 @@ spec:
     spec:
       containers:
         - name: flask-app-image
-          image: flask-app
+          image: 
+          valueFrom:
+            configMapKeyRef:
+              name: ja-flask-configmap
+              key: image_location
           ports:
             - containerPort: 8080
           # env:
