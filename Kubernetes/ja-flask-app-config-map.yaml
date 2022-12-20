@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: ja-flask-configmap
-data:
-  image_location: us-central1-docker.pkg.dev/playground-s-11-6a6cb2fb/ja-repo-playground-s-11-6a6cb2fb/flask-app:staging

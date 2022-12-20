@@ -4,6 +4,7 @@ metadata:
   name: ja-flask-app-service
   labels:
     app: flask-app-service
+  namespace: ja-env2
 spec:
   selector:
     app: ja-flask-app
@@ -12,4 +13,4 @@ spec:
     - protocol: TCP
       port: 8080 # Port accessible inside cluster
       targetPort: 8080 # Port accessible inside the pod
-      nodePort: 30001 # Port accessible outside cluster
+      nodePort: 30002 # Port accessible outside cluster
