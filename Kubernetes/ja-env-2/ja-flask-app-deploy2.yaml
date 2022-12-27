@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: flask-app-image
-          image: 
+          image: us-central1-docker.pkg.dev/playground-s-11-5808d1f1/ja-repo-playground-s-11-5808d1f1/flask-app:staging
           ports:
             - containerPort: 8080
           # env:
